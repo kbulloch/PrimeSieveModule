@@ -1,0 +1,7 @@
+name = Prime Sieve
+description = Lists out prime numbers based on Eratosthenes' Sieve
+package = Brett and Kyle's Creations
+core = 7.x
+files[] = prime_sieve.module
+files[] = prime_sieve.test
+dependencies = simpletest

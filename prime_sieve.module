@@ -1,0 +1,50 @@
+<?php
+
+function prime_sieve_menu() {
+    $items = array();
+    $items['prime_sieve'] = array(
+        'title' => 'Eratosthenes\'s Prime Sieve',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('prime_sieve_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['sieve_success'] = array(
+        'title' => 'Prime Sieve Success',
+        'page callback' => 'prime_sieve_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function prime_sieve_generator($max) {
+    if($max <= 2) {
+        return 'No primes';
+    }
+
+    $numbers = array();
+
+    for ($i=2; $i <= $max; $i++) {
+        array_push($numbers, $i);
+    }
+
+    $count = 2;
+
+    while ($count <= $max) {
+        foreach($numbers as $key=>$i) {
+            if($i % $count == 0 && $i !== $count){
+                unset($numbers[$key]);
+            }
+        }
+        $count++;
+    }
+    
+    $primes = array();
+
+    foreach($numbers as $i) {
+        array_push($primes, $i);
+    }
+
+    return $primes;
+}
