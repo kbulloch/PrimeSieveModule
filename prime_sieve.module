@@ -22,15 +22,11 @@ function prime_sieve_generator($max) {
     if($max <= 2) {
         return 'No primes';
     }
-
     $numbers = array();
-
     for ($i=2; $i <= $max; $i++) {
         array_push($numbers, $i);
     }
-
     $count = 2;
-
     while ($count <= $max) {
         foreach($numbers as $key=>$i) {
             if($i % $count == 0 && $i !== $count){
@@ -39,12 +35,36 @@ function prime_sieve_generator($max) {
         }
         $count++;
     }
-    
     $primes = array();
-
     foreach($numbers as $i) {
         array_push($primes, $i);
     }
+    $primes_list = implode(' ', $primes);
+    return $primes_list;
+}
 
-    return $primes;
+function prime_sieve_form() {
+    $form['max'] = array(
+        '#title' => 'Max',
+        '#type' => 'textfield',
+        '#description' => t('Enter the max number to sieve to'),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Sieve it!',
+    );
+    return $form;
+}
+
+function prime_sieve_form_submit($form, &$form_state) {
+    $max = $form_state['values']['max'];
+    $primes = prime_sieve_generator($max);
+    $_SESSION['primes'] = $primes;
+    $form_state['redirect'] = 'sieve_success';
+}
+
+function prime_sieve_success() {
+    $primes = $_SESSION['primes'];
+    return '<p>Your primes are: ' . $primes . '</p>';
 }
