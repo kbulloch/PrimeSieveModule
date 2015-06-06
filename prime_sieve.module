@@ -19,29 +19,46 @@ function prime_sieve_menu() {
 }
 
 function prime_sieve_generator($max) {
-    if($max <= 2) {
+    if($max < 2) {
         return 'No primes';
     }
+
+    //create array of all numbers up to max
     $numbers = array();
     for ($i=2; $i <= $max; $i++) {
         array_push($numbers, $i);
     }
-    $count = 2;
-    while ($count <= $max) {
-        foreach($numbers as $key=>$i) {
-            if($i % $count == 0 && $i !== $count){
+
+    //sieve primes
+    for ($i=0; $i < count($numbers); $i++) {
+
+        //set index_prime to smallest number not yet sieved
+        $index_prime = $numbers[$i];
+
+        //loop through array of numbers
+        foreach($numbers as $key=>$item) {
+            //remove all multiples of index_prime
+            if($item % $index_prime == 0 && $item !== $index_prime) {
                 unset($numbers[$key]);
             }
         }
-        $count++;
+
+        //reset array keys
+        $numbers = array_values($numbers);
     }
+
+    //create array of primes
     $primes = array();
     foreach($numbers as $i) {
         array_push($primes, $i);
     }
+
+    //create string of primes with spaces
     $primes_list = implode(' ', $primes);
+
     return $primes_list;
 }
+
 
 function prime_sieve_form() {
     $form['max'] = array(
