@@ -30,7 +30,9 @@ function prime_sieve_generator($max) {
     }
 
     //sieve primes
-    for ($i=0; $i < count($numbers); $i++) {
+    //if index_prime squared <= last value in numbers array stop
+    for ($i=0; pow($numbers[$i], 2) <= $numbers[count($numbers) - 1]; $i++) {
+
 
         //set index_prime to smallest number not yet sieved
         $index_prime = $numbers[$i];
