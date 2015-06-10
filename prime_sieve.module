@@ -67,6 +67,10 @@ function prime_sieve_form() {
         '#title' => 'Max',
         '#type' => 'textfield',
         '#description' => t('Enter the max number to sieve to'),
+        '#element_validate' => array(
+            'element_validate_integer_positive',
+            'element_validate_half_million',
+        ),
         '#required' => TRUE,
     );
     $form['submit'] = array(
@@ -74,6 +78,12 @@ function prime_sieve_form() {
         '#value' => 'Sieve it!',
     );
     return $form;
+}
+
+function element_validate_half_million($element) {
+    if($element['#value'] > 500000) {
+        form_error($element, t('The maximum possible is 500,000.  The system will excede it\'s memory capacity at the number entered.'));
+    }
 }
 
 function prime_sieve_form_submit($form, &$form_state) {
